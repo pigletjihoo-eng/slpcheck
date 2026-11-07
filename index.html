@@ -1,0 +1,866 @@
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨️오각별 Star Light point🌟</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #05050f;
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 무작위 위치에서 반짝이는 하얀색 별 배경 이펙트 */
+        .stars-bg {
+            background: radial-gradient(ellipse at bottom, #111126 0%, #05050f 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .stars-bg::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 23px 37px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 78px 140px, rgba(255,255,255,0.9), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 142px 65px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 190px 210px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+                radial-gradient(2.5px 2.5px at 240px 110px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 310px 290px, rgba(255,255,255,0.85), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 360px 45px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 420px 180px, rgba(255,255,255,0.75), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 470px 320px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 500px 500px;
+            opacity: 0.8;
+            animation: twinkle 3s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .stars-bg::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(1.5px 1.5px at 55px 190px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 115px 310px, rgba(255,255,255,0.95), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 215px 85px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2.5px 2.5px at 285px 230px, rgba(255,255,255,0.85), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 385px 125px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 445px 270px, rgba(255,255,255,0.9), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 450px 450px;
+            opacity: 0.6;
+            animation: twinkle 4.5s ease-in-out infinite alternate-reverse;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.95); }
+            50% { opacity: 0.9; transform: scale(1.03); }
+            100% { opacity: 0.3; transform: scale(1); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        }
+
+        .white-rank-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .white-rank-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.4);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.6);
+        }
+
+        .glow-title {
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+        }
+    </style>
+</head>
+<body class="stars-bg min-h-screen flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+    <!-- 상단 네비게이션 헤더 -->
+    <header class="relative z-20 w-full border-b border-purple-900/30 bg-slate-950/70 backdrop-blur-md px-4 py-3">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <!-- 좌측: 포인트 현황판 버튼 -->
+            <button id="open-logs-btn" class="flex items-center gap-2 bg-indigo-600/80 hover:bg-indigo-600 text-white text-xs md:text-sm font-semibold px-3 py-2 rounded-xl transition-all shadow-md active:scale-95">
+                <i class="fa-solid fa-list-check text-indigo-200"></i>
+                <span>포인트 현황판</span>
+            </button>
+
+            <!-- 우측: 개발자 설정 버튼 -->
+            <button id="open-settings-btn" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs md:text-sm font-semibold px-3 py-2 rounded-xl border border-slate-700 transition-all active:scale-95">
+                <i class="fa-solid fa-gear text-purple-400"></i>
+                <span>개발자 설정</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="relative z-10 container mx-auto px-4 py-6 max-w-4xl flex-grow flex flex-col gap-6">
+        
+        <!-- 메인 헤더 제목 & 소제목 -->
+        <div class="text-center space-y-2 my-2">
+            <h1 id="main-title" class="text-2xl md:text-4xl font-extrabold tracking-tight glow-title text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-purple-100 to-indigo-300">
+                ✨️오각별 Star Light point🌟
+            </h1>
+            <p id="main-subtitle" class="text-xs md:text-sm text-purple-200/80 font-light">
+                ✨ 친구들과 함께 포인트를 모으고 대결해보세요! 🌟
+            </p>
+        </div>
+
+        <!-- 실시간 랭킹 컨테이너 (하얀색 바탕 리얼 타임 카드) -->
+        <div class="glass-card rounded-3xl p-5 md:p-7 text-slate-900">
+            <!-- 헤더 타이틀 -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4 mb-5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-trophy text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">실시간 랭킹</h2>
+                        <p class="text-xs text-slate-500 font-medium">현재 친구들의 포인트 순위 현황입니다 (실시간 공유)</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="sync-status" class="bg-emerald-100 text-emerald-700 font-bold text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-emerald-200">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 실시간 연결됨
+                    </span>
+                    <span id="player-count-badge" class="bg-purple-100 text-purple-700 font-bold text-xs px-3 py-1 rounded-full border border-purple-200">
+                        참여 0명
+                    </span>
+                </div>
+            </div>
+
+            <!-- 랭킹 리스트 영역 -->
+            <div id="ranking-list" class="space-y-3">
+                <!-- 자바스크립트에 의해 동적으로 생성됩니다 -->
+            </div>
+
+            <!-- 참가자 없음 안내 (비어있을 때) -->
+            <div id="empty-state" class="py-12 text-center text-slate-400 space-y-3">
+                <i class="fa-solid fa-users-slash text-4xl text-slate-300"></i>
+                <p class="text-sm">등록된 친구가 없습니다.<br>우측 상단 '개발자 설정'에서 친구를 새로 추가해보세요!</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="relative z-10 text-center py-4 text-xs text-slate-500 border-t border-slate-900/40">
+        ✨️오각별 Star Light point🌟 &copy; 2026 Live Shared Ranking System
+    </footer>
+
+    <!-- 1. 포인트 현황판 모달 (누구나 조회 가능) -->
+    <div id="logs-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-5 shadow-2xl flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                <div class="flex items-center gap-2 text-indigo-400">
+                    <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+                    <h3 class="font-bold text-lg text-white">포인트 내역 현황판</h3>
+                </div>
+                <button id="close-logs-modal" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- 내역 데이터 영역 -->
+            <div id="logs-container" class="overflow-y-auto flex-grow space-y-2 pr-1">
+                <!-- 자바스크립트 동적 생성 -->
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                <span>모든 친구가 함께 보는 실시간 사유 기록판입니다.</span>
+                <button id="close-logs-bottom" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 개발자 관리자 센터 모달 -->
+    <div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+        <div class="bg-slate-900 border border-purple-500/30 w-full max-w-xl rounded-3xl p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto space-y-6">
+            
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white">개발자 관리자 센터</h3>
+                        <p class="text-xs text-slate-400">권한 인증 및 종합 점수 관리</p>
+                    </div>
+                </div>
+                <button id="close-settings-modal" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- 권한 미획득 시 (비밀번호 입력 폼) -->
+            <div id="settings-lock-section" class="space-y-4 py-4">
+                <div class="text-center space-y-1">
+                    <i class="fa-solid fa-shield-halved text-3xl text-purple-400 mb-2"></i>
+                    <h4 class="text-sm font-semibold text-white">관리자 비밀번호 인증</h4>
+                    <p class="text-xs text-slate-400">점수 관리 권한을 얻으려면 암호를 입력하세요.</p>
+                </div>
+                <form id="admin-auth-form" class="space-y-3 max-w-xs mx-auto">
+                    <input type="password" id="admin-pass-input" placeholder="비밀번호 입력" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-center text-white focus:outline-none focus:border-purple-500">
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md">
+                        인증하기
+                    </button>
+                </form>
+            </div>
+
+            <!-- 권한 획득 시 (관리 기능 세션) -->
+            <div id="settings-content-section" class="space-y-6 hidden">
+                <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 flex items-center gap-3 text-emerald-300 text-xs">
+                    <i class="fa-solid fa-circle-check text-base text-emerald-400"></i>
+                    <span>개발자 권한 활성화됨. 창을 닫으면 자동으로 다시 잠깁니다.</span>
+                </div>
+
+                <!-- 서브 서브: 사유 입력 기반 포인트 부여/차감 -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
+                    <h4 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-holding-hand"></i>
+                        <span>포인트 지급 / 차감 (사유 기록)</span>
+                    </h4>
+                    <form id="log-point-form" class="space-y-3 text-xs">
+                        <div class="space-y-1">
+                            <label class="text-slate-400">포인트 받을 친구 선택</label>
+                            <select id="log-target-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+                                <!-- 동적 삽입 -->
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div class="space-y-1">
+                                <label class="text-slate-400">증감 점수 (slp, 소수점/음수 가능)</label>
+                                <div class="flex gap-1">
+                                    <input type="number" step="any" id="log-score-input" placeholder="+0.5 또는 -0.1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+                                    <button type="button" id="toggle-sign-btn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-xl font-bold whitespace-nowrap active:scale-95 transition-all" title="부호 반전 (+/-)">
+                                        +/-
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-slate-400">보낸 사람 (누가)</label>
+                                <input type="text" id="log-sender-input" placeholder="예: 개발자, 선생님" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" value="개발자">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-slate-400">지급/차감 사유 (어떤 이유로)</label>
+                            <input type="text" id="log-reason-input" placeholder="예: 퀴즈 정답 맞춤, 미션 성공" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" required>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-xl transition-all">
+                            포인트 등록 및 사유 기록
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 서브 서브: 제목 및 소제목 변경 -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
+                    <h4 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+                        <i class="fa-solid fa-heading"></i>
+                        <span>사이트 제목 및 소제목 변경</span>
+                    </h4>
+                    <form id="change-title-form" class="space-y-3 text-xs">
+                        <div>
+                            <label class="text-slate-400">메인 제목</label>
+                            <input type="text" id="input-site-title" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 mt-1" required>
+                        </div>
+                        <div>
+                            <label class="text-slate-400">부제목</label>
+                            <input type="text" id="input-site-subtitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 mt-1">
+                        </div>
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-xl transition-all">
+                            제목 업데이트
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 서브 서브: 새 친구 추가 -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
+                    <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus text-purple-400"></i>
+                        <span>새 친구 등록</span>
+                    </h4>
+                    <form id="add-player-form" class="flex gap-2">
+                        <input type="text" id="new-player-name" placeholder="친구 이름 입력" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500" required>
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition-all whitespace-nowrap">
+                            추가
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 서브 서브: 빠른 점수 관리 및 관리자 비밀번호 변경 -->
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold text-slate-200">참여자 개별 관리</h4>
+                    <div id="admin-player-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <!-- 동적 삽입 -->
+                    </div>
+                </div>
+
+                <!-- 비밀번호 변경 -->
+                <div class="border-t border-slate-800 pt-4 space-y-2">
+                    <h4 class="text-xs font-bold text-slate-400">관리자 비밀번호 변경</h4>
+                    <form id="change-pass-form" class="flex gap-2">
+                        <input type="password" id="new-pass-input" placeholder="새 비밀번호 입력" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500" required>
+                        <button type="submit" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold px-4 py-2 rounded-xl text-xs transition-all whitespace-nowrap">
+                            변경
+                        </button>
+                    </form>
+                </div>
+
+                <div class="pt-2">
+                    <button id="lock-admin-btn" class="w-full bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/30 py-2.5 rounded-xl text-xs font-bold transition-all">
+                        권한 종료 및 관리자 창 닫기
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 3. 직접 점수 입력 모달 -->
+    <div id="direct-score-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm hidden">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-2xl p-5 shadow-2xl space-y-4">
+            <h3 class="font-bold text-white text-base text-center">
+                <span id="target-player-name" class="text-purple-400"></span> 님 점수 직접 설정
+            </h3>
+            <div class="space-y-1">
+                <label class="text-xs text-slate-400">설정할 총 포인트 (slp)</label>
+                <input type="number" step="any" id="direct-score-input" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-center text-lg font-bold text-white focus:outline-none focus:border-purple-500">
+            </div>
+            <div class="flex gap-2">
+                <button id="cancel-direct-score" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2 rounded-xl text-xs font-semibold">취소</button>
+                <button id="save-direct-score" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-xl text-xs font-bold">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (실시간 데이터 서버 연동) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 기본 상태
+        const DEFAULT_TITLE = "✨️오각별 Star Light point🌟";
+        const DEFAULT_SUBTITLE = "✨ 친구들과 함께 포인트를 모으고 대결해보세요! 🌟";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'starlight-ranking-app';
+        
+        // 데이터 구조 초기화
+        let state = {
+            title: DEFAULT_TITLE,
+            subtitle: DEFAULT_SUBTITLE,
+            adminPass: localStorage.getItem('slp_pass') || '147',
+            isAdminAuthenticated: false,
+            players: [],
+            logs: []
+        };
+
+        let currentEditingPlayerId = null;
+        let db, auth, currentUser;
+
+        // Firebase 설정 (글로벌 변수 및 자체 초기화 지원)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {
+                // 테스트/독립 구동용 데모 클라우드 인프라 파라미터
+                apiKey: "AIzaSyDemoKeyForRankingServiceApp123",
+                authDomain: "starlight-ranking.firebaseapp.com",
+                projectId: "starlight-ranking",
+                storageBucket: "starlight-ranking.appspot.com",
+                messagingSenderId: "123456789",
+                appId: "1:123456789:web:starlightdemo"
+            };
+
+        // DOM 요소
+        const mainTitle = document.getElementById('main-title');
+        const mainSubtitle = document.getElementById('main-subtitle');
+        const rankingList = document.getElementById('ranking-list');
+        const emptyState = document.getElementById('empty-state');
+        const playerCountBadge = document.getElementById('player-count-badge');
+
+        const logsModal = document.getElementById('logs-modal');
+        const openLogsBtn = document.getElementById('open-logs-btn');
+        const closeLogsModal = document.getElementById('close-logs-modal');
+        const closeLogsBottom = document.getElementById('close-logs-bottom');
+        const logsContainer = document.getElementById('logs-container');
+
+        const settingsModal = document.getElementById('settings-modal');
+        const openSettingsBtn = document.getElementById('open-settings-btn');
+        const closeSettingsModal = document.getElementById('close-settings-modal');
+        const settingsLockSection = document.getElementById('settings-lock-section');
+        const settingsContentSection = document.getElementById('settings-content-section');
+
+        const adminAuthForm = document.getElementById('admin-auth-form');
+        const adminPassInput = document.getElementById('admin-pass-input');
+        const lockAdminBtn = document.getElementById('lock-admin-btn');
+
+        const logPointForm = document.getElementById('log-point-form');
+        const logTargetSelect = document.getElementById('log-target-select');
+        const logScoreInput = document.getElementById('log-score-input');
+        const toggleSignBtn = document.getElementById('toggle-sign-btn');
+        const logSenderInput = document.getElementById('log-sender-input');
+        const logReasonInput = document.getElementById('log-reason-input');
+
+        const changeTitleForm = document.getElementById('change-title-form');
+        const inputSiteTitle = document.getElementById('input-site-title');
+        const inputSiteSubtitle = document.getElementById('input-site-subtitle');
+
+        const addPlayerForm = document.getElementById('add-player-form');
+        const newPlayerName = document.getElementById('new-player-name');
+        const adminPlayerList = document.getElementById('admin-player-list');
+
+        const changePassForm = document.getElementById('change-pass-form');
+        const newPassInput = document.getElementById('new-pass-input');
+
+        const directScoreModal = document.getElementById('direct-score-modal');
+        const targetPlayerName = document.getElementById('target-player-name');
+        const directScoreInput = document.getElementById('direct-score-input');
+        const cancelDirectScore = document.getElementById('cancel-direct-score');
+        const saveDirectScore = document.getElementById('save-direct-score');
+
+        // 소수점 둘째 자리 정밀 보정
+        function fixScore(score) {
+            return Math.round((parseFloat(score) || 0) * 100) / 100;
+        }
+
+        // 헤더 UI 렌더링
+        function renderHeader() {
+            mainTitle.textContent = state.title;
+            document.title = state.title;
+            inputSiteTitle.value = state.title;
+
+            if (state.subtitle && state.subtitle.trim() !== '') {
+                mainSubtitle.textContent = state.subtitle;
+                mainSubtitle.classList.remove('hidden');
+                inputSiteSubtitle.value = state.subtitle;
+            } else {
+                mainSubtitle.classList.add('hidden');
+                inputSiteSubtitle.value = '';
+            }
+        }
+
+        // 랭킹 카드 렌더링
+        function renderRanking() {
+            rankingList.innerHTML = '';
+            
+            const sortedPlayers = [...state.players].sort((a, b) => b.score - a.score);
+            playerCountBadge.textContent = `참여 ${sortedPlayers.length}명`;
+
+            if (sortedPlayers.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            sortedPlayers.forEach((player, index) => {
+                const rank = index + 1;
+                const card = document.createElement('div');
+                card.className = 'white-rank-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4';
+
+                let rankBadge = `<div class="w-8 h-8 rounded-xl bg-slate-100 font-bold text-slate-600 flex items-center justify-center text-sm border border-slate-200">${rank}</div>`;
+                if (rank === 1) {
+                    rankBadge = `<div class="w-8 h-8 rounded-xl bg-amber-400 font-black text-white flex items-center justify-center text-sm shadow-md"><i class="fa-solid fa-crown text-amber-100"></i></div>`;
+                } else if (rank === 2) {
+                    rankBadge = `<div class="w-8 h-8 rounded-xl bg-slate-300 font-black text-slate-700 flex items-center justify-center text-sm shadow-sm">2</div>`;
+                } else if (rank === 3) {
+                    rankBadge = `<div class="w-8 h-8 rounded-xl bg-amber-700 font-black text-amber-100 flex items-center justify-center text-sm shadow-sm">3</div>`;
+                }
+
+                let adminControls = '';
+                if (state.isAdminAuthenticated) {
+                    adminControls = `
+                        <div class="flex flex-wrap items-center gap-1 pt-2 sm:pt-0 border-t sm:border-0 border-slate-100">
+                            <button data-id="${player.id}" data-delta="-10" class="btn-adjust bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs px-2 py-1 rounded-lg border border-red-200 active:scale-95 transition-all">-10</button>
+                            <button data-id="${player.id}" data-delta="-5" class="btn-adjust bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs px-2 py-1 rounded-lg border border-red-200 active:scale-95 transition-all">-5</button>
+                            <button data-id="${player.id}" data-delta="-3" class="btn-adjust bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs px-2 py-1 rounded-lg border border-red-200 active:scale-95 transition-all">-3</button>
+                            <button data-id="${player.id}" data-delta="-1" class="btn-adjust bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs px-2 py-1 rounded-lg border border-red-200 active:scale-95 transition-all">-1</button>
+                            <button data-id="${player.id}" data-delta="1" class="btn-adjust bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold text-xs px-2 py-1 rounded-lg border border-emerald-200 active:scale-95 transition-all">+1</button>
+                            <button data-id="${player.id}" data-delta="3" class="btn-adjust bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold text-xs px-2 py-1 rounded-lg border border-emerald-200 active:scale-95 transition-all">+3</button>
+                            <button data-id="${player.id}" data-delta="5" class="btn-adjust bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold text-xs px-2 py-1 rounded-lg border border-emerald-200 active:scale-95 transition-all">+5</button>
+                            <button data-id="${player.id}" data-delta="10" class="btn-adjust bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold text-xs px-2 py-1 rounded-lg border border-emerald-200 active:scale-95 transition-all">+10</button>
+                            <button data-id="${player.id}" class="btn-direct bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-2 py-1 rounded-lg border border-slate-300 ml-1">직접입력</button>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        ${rankBadge}
+                        <div>
+                            <div class="font-bold text-slate-900 text-base">${player.name}</div>
+                            <div class="text-xs text-slate-400">포인트 보유 중</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-end gap-4">
+                        <div class="text-right">
+                            <span class="text-xl md:text-2xl font-black text-purple-700 tracking-tight">${fixScore(player.score)}</span>
+                            <span class="text-xs font-bold text-purple-500 ml-1">slp</span>
+                        </div>
+                        ${adminControls}
+                    </div>
+                `;
+                rankingList.appendChild(card);
+            });
+
+            // 증감 버튼 이벤트 재연결
+            document.querySelectorAll('.btn-adjust').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    const delta = parseFloat(e.currentTarget.getAttribute('data-delta'));
+                    adjustScore(id, delta);
+                });
+            });
+
+            document.querySelectorAll('.btn-direct').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    openDirectScoreModal(id);
+                });
+            });
+        }
+
+        // 현황판 내역 렌더링
+        function renderLogs() {
+            logsContainer.innerHTML = '';
+            if (state.logs.length === 0) {
+                logsContainer.innerHTML = `
+                    <div class="py-8 text-center text-slate-500 text-xs">
+                        기록된 포인트 변동 내역이 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            [...state.logs].sort((a, b) => b.createdAt - a.createdAt).forEach(log => {
+                const isPositive = log.amount >= 0;
+                const logItem = document.createElement('div');
+                logItem.className = 'bg-slate-800/70 border border-slate-700/60 rounded-xl p-3 text-xs space-y-1';
+                logItem.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-white text-sm">${log.targetName}</span>
+                        <span class="font-black ${isPositive ? 'text-emerald-400' : 'text-red-400'} text-sm">
+                            ${isPositive ? '+' : ''}${fixScore(log.amount)} slp
+                        </span>
+                    </div>
+                    <div class="text-slate-300 flex items-center gap-1">
+                        <span class="text-slate-400">[사유]</span> ${log.reason}
+                    </div>
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 pt-1">
+                        <span>지급자: ${log.sender}</span>
+                        <span>${log.timestamp}</span>
+                    </div>
+                `;
+                logsContainer.appendChild(logItem);
+            });
+        }
+
+        // 관리자 탭 플레이어 리스트 렌더링
+        function renderAdminPlayerList() {
+            adminPlayerList.innerHTML = '';
+            logTargetSelect.innerHTML = '<option value="">선택하세요</option>';
+
+            state.players.forEach(player => {
+                const opt = document.createElement('option');
+                opt.value = player.id;
+                opt.textContent = `${player.name} (현재 ${fixScore(player.score)} slp)`;
+                logTargetSelect.appendChild(opt);
+
+                const item = document.createElement('div');
+                item.className = 'bg-slate-800 border border-slate-700 rounded-xl p-2.5 flex items-center justify-between text-xs';
+                item.innerHTML = `
+                    <div class="font-semibold text-white">${player.name} <span class="text-purple-400 ml-1">(${fixScore(player.score)} slp)</span></div>
+                    <div class="flex items-center gap-1">
+                        <button data-id="${player.id}" class="btn-reset-player bg-slate-700 hover:bg-slate-600 text-slate-300 px-2 py-1 rounded-lg">0점 초기화</button>
+                        <button data-id="${player.id}" class="btn-delete-player bg-red-500/20 hover:bg-red-500/40 text-red-300 px-2 py-1 rounded-lg">삭제</button>
+                    </div>
+                `;
+                adminPlayerList.appendChild(item);
+            });
+
+            document.querySelectorAll('.btn-reset-player').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    resetPlayerScore(e.currentTarget.getAttribute('data-id'));
+                });
+            });
+
+            document.querySelectorAll('.btn-delete-player').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    deletePlayer(e.currentTarget.getAttribute('data-id'));
+                });
+            });
+        }
+
+        // Firestore 실시간 데이터베이스 연동 및 데이터 동기화
+        async function initFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // 익명 인증 실행
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+
+                if (!currentUser) return;
+
+                // 1. 공용 설정 구독 (제목, 부제목)
+                const configDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'mainSettings');
+                onSnapshot(configDocRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        state.title = data.title || DEFAULT_TITLE;
+                        state.subtitle = data.subtitle !== undefined ? data.subtitle : DEFAULT_SUBTITLE;
+                    } else {
+                        // 최초 생성
+                        setDoc(configDocRef, { title: DEFAULT_TITLE, subtitle: DEFAULT_SUBTITLE });
+                    }
+                    renderHeader();
+                }, (error) => console.log("Config Sync Error:", error));
+
+                // 2. 공용 플레이어 데이터 구독
+                const playersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'players');
+                onSnapshot(playersColRef, (snapshot) => {
+                    const list = [];
+                    snapshot.forEach(docSnap => {
+                        list.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    state.players = list;
+                    renderRanking();
+                    if (state.isAdminAuthenticated) renderAdminPlayerList();
+                }, (error) => console.log("Players Sync Error:", error));
+
+                // 3. 공용 사유 내역 구독
+                const logsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'logs');
+                onSnapshot(logsColRef, (snapshot) => {
+                    const list = [];
+                    snapshot.forEach(docSnap => {
+                        list.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    state.logs = list;
+                    renderLogs();
+                }, (error) => console.log("Logs Sync Error:", error));
+
+            } catch (err) {
+                console.error("Firebase Init Error:", err);
+            }
+        }
+
+        // 데이터 조작 (Firestore 업데이트)
+        async function updatePlayerScoreInDB(playerId, newScore) {
+            if (!currentUser) return;
+            const playerDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', playerId);
+            await updateDoc(playerDocRef, { score: fixScore(newScore) });
+        }
+
+        async function adjustScore(id, delta) {
+            const player = state.players.find(p => p.id === id);
+            if (player) {
+                await updatePlayerScoreInDB(id, player.score + delta);
+            }
+        }
+
+        async function resetPlayerScore(id) {
+            await updatePlayerScoreInDB(id, 0);
+        }
+
+        async function deletePlayer(id) {
+            if (!currentUser) return;
+            const playerDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', id);
+            await deleteDoc(playerDocRef);
+        }
+
+        function openDirectScoreModal(id) {
+            const player = state.players.find(p => p.id === id);
+            if (player) {
+                currentEditingPlayerId = id;
+                targetPlayerName.textContent = player.name;
+                directScoreInput.value = fixScore(player.score);
+                directScoreModal.classList.remove('hidden');
+            }
+        }
+
+        function closeSettingsMenu() {
+            state.isAdminAuthenticated = false;
+            settingsContentSection.classList.add('hidden');
+            settingsLockSection.classList.remove('hidden');
+            settingsModal.classList.add('hidden');
+            adminPassInput.value = '';
+            renderRanking();
+        }
+
+        // 초기화 및 이벤트 등록
+        document.addEventListener('DOMContentLoaded', () => {
+            initFirebase();
+
+            // 현황판 모달
+            openLogsBtn.addEventListener('click', () => {
+                renderLogs();
+                logsModal.classList.remove('hidden');
+            });
+            closeLogsModal.addEventListener('click', () => logsModal.classList.add('hidden'));
+            closeLogsBottom.addEventListener('click', () => logsModal.classList.add('hidden'));
+
+            // 개발자 설정 모달
+            openSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
+            closeSettingsModal.addEventListener('click', closeSettingsMenu);
+            lockAdminBtn.addEventListener('click', closeSettingsMenu);
+
+            // 관리자 인증 폼
+            adminAuthForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (adminPassInput.value === state.adminPass) {
+                    state.isAdminAuthenticated = true;
+                    settingsLockSection.classList.add('hidden');
+                    settingsContentSection.classList.remove('hidden');
+                    renderAdminPlayerList();
+                    renderRanking();
+                } else {
+                    alert('비밀번호가 올바르지 않습니다.');
+                    adminPassInput.value = '';
+                }
+            });
+
+            // +/- 반전 버튼
+            toggleSignBtn.addEventListener('click', () => {
+                let val = logScoreInput.value.trim();
+                if (val.startsWith('-')) {
+                    logScoreInput.value = val.substring(1);
+                } else if (val.length > 0) {
+                    logScoreInput.value = '-' + val;
+                } else {
+                    logScoreInput.value = '-';
+                }
+            });
+
+            // 사유 기록 및 포인트 등록 폼 (서버 저장)
+            logPointForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const targetId = logTargetSelect.value;
+                const amount = parseFloat(logScoreInput.value);
+                const sender = logSenderInput.value.trim() || '개발자';
+                const reason = logReasonInput.value.trim();
+
+                if (!targetId || isNaN(amount) || !currentUser) return;
+
+                const player = state.players.find(p => p.id === targetId);
+                if (player) {
+                    const newScore = fixScore(player.score + amount);
+                    await updatePlayerScoreInDB(targetId, newScore);
+
+                    const now = new Date();
+                    const timeStr = `${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                    
+                    const logsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'logs');
+                    await addDoc(logsColRef, {
+                        targetName: player.name,
+                        amount: amount,
+                        sender: sender,
+                        reason: reason,
+                        timestamp: timeStr,
+                        createdAt: Date.now()
+                    });
+
+                    logScoreInput.value = '';
+                    logReasonInput.value = '';
+                    alert(`${player.name} 님에게 ${amount > 0 ? '+' : ''}${amount} slp 가 적용되어 공유 서버에 저장되었습니다!`);
+                }
+            });
+
+            // 사이트 제목 변경 (서버 저장)
+            changeTitleForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const newTitle = inputSiteTitle.value.trim() || DEFAULT_TITLE;
+                const newSubtitle = inputSiteSubtitle.value.trim();
+
+                if (currentUser) {
+                    const configDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'mainSettings');
+                    await setDoc(configDocRef, { title: newTitle, subtitle: newSubtitle });
+                    alert('새 사이트 제목이 모든 친구들에게 실시간으로 적용되었습니다!');
+                }
+            });
+
+            // 새 친구 등록 (서버 저장)
+            addPlayerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = newPlayerName.value.trim();
+                if (name && currentUser) {
+                    const playersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'players');
+                    await addDoc(playersColRef, {
+                        name: name,
+                        score: 0,
+                        createdAt: Date.now()
+                    });
+                    newPlayerName.value = '';
+                }
+            });
+
+            // 비밀번호 변경
+            changePassForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPass = newPassInput.value.trim();
+                if (newPass) {
+                    state.adminPass = newPass;
+                    localStorage.setItem('slp_pass', newPass);
+                    newPassInput.value = '';
+                    alert('관리자 비밀번호가 성공적으로 변경되었습니다!');
+                }
+            });
+
+            // 직접 입력 모달 처리
+            cancelDirectScore.addEventListener('click', () => directScoreModal.classList.add('hidden'));
+            saveDirectScore.addEventListener('click', async () => {
+                const val = parseFloat(directScoreInput.value);
+                if (!isNaN(val) && currentEditingPlayerId) {
+                    await updatePlayerScoreInDB(currentEditingPlayerId, val);
+                }
+                directScoreModal.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
+```
