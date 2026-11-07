@@ -20,7 +20,6 @@
             overflow-x: hidden;
         }
 
-        /* 무작위 위치에서 반짝이는 하얀색 별 배경 이펙트 */
         .stars-bg {
             background: radial-gradient(ellipse at bottom, #111126 0%, #05050f 100%);
             background-attachment: fixed;
@@ -93,38 +92,24 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        /* 커스텀 스크롤바 */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.4);
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(148, 163, 184, 0.6);
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
 
-        .glow-title {
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-        }
+        .glow-title { text-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
     </style>
 </head>
 <body class="stars-bg min-h-screen flex flex-col justify-between selection:bg-purple-500 selection:text-white">
 
-    <!-- 상단 네비게이션 헤더 -->
+    <!-- 상단 헤더 -->
     <header class="relative z-20 w-full border-b border-purple-900/30 bg-slate-950/70 backdrop-blur-md px-4 py-3">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <!-- 좌측: 포인트 현황판 버튼 -->
             <button id="open-logs-btn" class="flex items-center gap-2 bg-indigo-600/80 hover:bg-indigo-600 text-white text-xs md:text-sm font-semibold px-3 py-2 rounded-xl transition-all shadow-md active:scale-95">
                 <i class="fa-solid fa-list-check text-indigo-200"></i>
                 <span>포인트 현황판</span>
             </button>
 
-            <!-- 우측: 개발자 설정 버튼 -->
             <button id="open-settings-btn" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs md:text-sm font-semibold px-3 py-2 rounded-xl border border-slate-700 transition-all active:scale-95">
                 <i class="fa-solid fa-gear text-purple-400"></i>
                 <span>개발자 설정</span>
@@ -132,10 +117,8 @@
         </div>
     </header>
 
-    <!-- 메인 컨텐츠 영역 -->
+    <!-- 메인 콘텐츠 -->
     <main class="relative z-10 container mx-auto px-4 py-6 max-w-4xl flex-grow flex flex-col gap-6">
-        
-        <!-- 메인 헤더 제목 & 소제목 -->
         <div class="text-center space-y-2 my-2">
             <h1 id="main-title" class="text-2xl md:text-4xl font-extrabold tracking-tight glow-title text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-purple-100 to-indigo-300">
                 ✨️오각별 Star Light point🌟
@@ -145,35 +128,26 @@
             </p>
         </div>
 
-        <!-- 실시간 랭킹 컨테이너 (하얀색 바탕 리얼 타임 카드) -->
         <div class="glass-card rounded-3xl p-5 md:p-7 text-slate-900">
-            <!-- 헤더 타이틀 -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4 mb-5">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-md">
                         <i class="fa-solid fa-trophy text-lg"></i>
                     </div>
                     <div>
-                        <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">실시간 랭킹</h2>
-                        <p class="text-xs text-slate-500 font-medium">현재 친구들의 포인트 순위 현황입니다 (실시간 공유)</p>
+                        <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">포인트 랭킹</h2>
+                        <p class="text-xs text-slate-500 font-medium">현재 등록된 친구들의 포인트 순위 현황입니다</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span id="sync-status" class="bg-emerald-100 text-emerald-700 font-bold text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-emerald-200">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 실시간 연결됨
-                    </span>
                     <span id="player-count-badge" class="bg-purple-100 text-purple-700 font-bold text-xs px-3 py-1 rounded-full border border-purple-200">
                         참여 0명
                     </span>
                 </div>
             </div>
 
-            <!-- 랭킹 리스트 영역 -->
-            <div id="ranking-list" class="space-y-3">
-                <!-- 자바스크립트에 의해 동적으로 생성됩니다 -->
-            </div>
+            <div id="ranking-list" class="space-y-3"></div>
 
-            <!-- 참가자 없음 안내 (비어있을 때) -->
             <div id="empty-state" class="py-12 text-center text-slate-400 space-y-3">
                 <i class="fa-solid fa-users-slash text-4xl text-slate-300"></i>
                 <p class="text-sm">등록된 친구가 없습니다.<br>우측 상단 '개발자 설정'에서 친구를 새로 추가해보세요!</p>
@@ -181,12 +155,11 @@
         </div>
     </main>
 
-    <!-- 푸터 -->
     <footer class="relative z-10 text-center py-4 text-xs text-slate-500 border-t border-slate-900/40">
-        ✨️오각별 Star Light point🌟 &copy; 2026 Live Shared Ranking System
+        ✨️오각별 Star Light point🌟 &copy; 2026 Local Ranking System
     </footer>
 
-    <!-- 1. 포인트 현황판 모달 (누구나 조회 가능) -->
+    <!-- 1. 포인트 현황판 모달 -->
     <div id="logs-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-5 shadow-2xl flex flex-col max-h-[85vh]">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
@@ -199,13 +172,10 @@
                 </button>
             </div>
 
-            <!-- 내역 데이터 영역 -->
-            <div id="logs-container" class="overflow-y-auto flex-grow space-y-2 pr-1">
-                <!-- 자바스크립트 동적 생성 -->
-            </div>
+            <div id="logs-container" class="overflow-y-auto flex-grow space-y-2 pr-1"></div>
 
             <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-                <span>모든 친구가 함께 보는 실시간 사유 기록판입니다.</span>
+                <span>포인트 사유 기록판입니다.</span>
                 <button id="close-logs-bottom" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl">닫기</button>
             </div>
         </div>
@@ -230,7 +200,7 @@
                 </button>
             </div>
 
-            <!-- 권한 미획득 시 (비밀번호 입력 폼) -->
+            <!-- 관리자 잠금 섹션 -->
             <div id="settings-lock-section" class="space-y-4 py-4">
                 <div class="text-center space-y-1">
                     <i class="fa-solid fa-shield-halved text-3xl text-purple-400 mb-2"></i>
@@ -245,14 +215,14 @@
                 </form>
             </div>
 
-            <!-- 권한 획득 시 (관리 기능 세션) -->
+            <!-- 관리자 콘텐츠 섹션 -->
             <div id="settings-content-section" class="space-y-6 hidden">
                 <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 flex items-center gap-3 text-emerald-300 text-xs">
                     <i class="fa-solid fa-circle-check text-base text-emerald-400"></i>
                     <span>개발자 권한 활성화됨. 창을 닫으면 자동으로 다시 잠깁니다.</span>
                 </div>
 
-                <!-- 서브 서브: 사유 입력 기반 포인트 부여/차감 -->
+                <!-- 포인트 지급/차감 폼 -->
                 <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
                     <h4 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
                         <i class="fa-solid fa-hand-holding-hand"></i>
@@ -261,28 +231,24 @@
                     <form id="log-point-form" class="space-y-3 text-xs">
                         <div class="space-y-1">
                             <label class="text-slate-400">포인트 받을 친구 선택</label>
-                            <select id="log-target-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
-                                <!-- 동적 삽입 -->
-                            </select>
+                            <select id="log-target-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500"></select>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <div class="space-y-1">
-                                <label class="text-slate-400">증감 점수 (slp, 소수점/음수 가능)</label>
+                                <label class="text-slate-400">증감 점수 (slp)</label>
                                 <div class="flex gap-1">
                                     <input type="number" step="any" id="log-score-input" placeholder="+0.5 또는 -0.1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
-                                    <button type="button" id="toggle-sign-btn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-xl font-bold whitespace-nowrap active:scale-95 transition-all" title="부호 반전 (+/-)">
-                                        +/-
-                                    </button>
+                                    <button type="button" id="toggle-sign-btn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-xl font-bold whitespace-nowrap transition-all">+/-</button>
                                 </div>
                             </div>
                             <div class="space-y-1">
-                                <label class="text-slate-400">보낸 사람 (누가)</label>
+                                <label class="text-slate-400">보낸 사람</label>
                                 <input type="text" id="log-sender-input" placeholder="예: 개발자, 선생님" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" value="개발자">
                             </div>
                         </div>
                         <div class="space-y-1">
-                            <label class="text-slate-400">지급/차감 사유 (어떤 이유로)</label>
-                            <input type="text" id="log-reason-input" placeholder="예: 퀴즈 정답 맞춤, 미션 성공" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" required>
+                            <label class="text-slate-400">지급/차감 사유</label>
+                            <input type="text" id="log-reason-input" placeholder="예: 퀴즈 정답 맞춤" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" required>
                         </div>
                         <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-xl transition-all">
                             포인트 등록 및 사유 기록
@@ -290,7 +256,7 @@
                     </form>
                 </div>
 
-                <!-- 서브 서브: 제목 및 소제목 변경 -->
+                <!-- 제목 변경 폼 -->
                 <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
                     <h4 class="text-sm font-bold text-purple-300 flex items-center gap-2">
                         <i class="fa-solid fa-heading"></i>
@@ -311,7 +277,7 @@
                     </form>
                 </div>
 
-                <!-- 서브 서브: 새 친구 추가 -->
+                <!-- 새 친구 등록 폼 -->
                 <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
                     <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2">
                         <i class="fa-solid fa-user-plus text-purple-400"></i>
@@ -325,12 +291,10 @@
                     </form>
                 </div>
 
-                <!-- 서브 서브: 빠른 점수 관리 및 관리자 비밀번호 변경 -->
+                <!-- 참여자 개별 관리 -->
                 <div class="space-y-3">
                     <h4 class="text-sm font-bold text-slate-200">참여자 개별 관리</h4>
-                    <div id="admin-player-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <!-- 동적 삽입 -->
-                    </div>
+                    <div id="admin-player-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
                 </div>
 
                 <!-- 비밀번호 변경 -->
@@ -354,7 +318,7 @@
         </div>
     </div>
 
-    <!-- 3. 직접 점수 입력 모달 -->
+    <!-- 3. 점수 직접 입력 모달 -->
     <div id="direct-score-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm hidden">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-sm rounded-2xl p-5 shadow-2xl space-y-4">
             <h3 class="font-bold text-white text-base text-center">
@@ -371,45 +335,22 @@
         </div>
     </div>
 
-    <!-- Firebase SDK (실시간 데이터 서버 연동) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot, collection, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // 기본 상태
+    <!-- 로컬 자바스크립트 스크립트 -->
+    <script>
         const DEFAULT_TITLE = "✨️오각별 Star Light point🌟";
         const DEFAULT_SUBTITLE = "✨ 친구들과 함께 포인트를 모으고 대결해보세요! 🌟";
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'starlight-ranking-app';
-        
-        // 데이터 구조 초기화
         let state = {
-            title: DEFAULT_TITLE,
-            subtitle: DEFAULT_SUBTITLE,
-            adminPass: localStorage.getItem('slp_pass') || '147',
+            title: localStorage.getItem('slp_local_title') || DEFAULT_TITLE,
+            subtitle: localStorage.getItem('slp_local_subtitle') || DEFAULT_SUBTITLE,
+            adminPass: localStorage.getItem('slp_local_pass') || '147',
             isAdminAuthenticated: false,
-            players: [],
-            logs: []
+            players: JSON.parse(localStorage.getItem('slp_local_players') || '[]'),
+            logs: JSON.parse(localStorage.getItem('slp_local_logs') || '[]')
         };
 
         let currentEditingPlayerId = null;
-        let db, auth, currentUser;
 
-        // Firebase 설정 (글로벌 변수 및 자체 초기화 지원)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' 
-            ? JSON.parse(__firebase_config) 
-            : {
-                // 테스트/독립 구동용 데모 클라우드 인프라 파라미터
-                apiKey: "AIzaSyDemoKeyForRankingServiceApp123",
-                authDomain: "starlight-ranking.firebaseapp.com",
-                projectId: "starlight-ranking",
-                storageBucket: "starlight-ranking.appspot.com",
-                messagingSenderId: "123456789",
-                appId: "1:123456789:web:starlightdemo"
-            };
-
-        // DOM 요소
         const mainTitle = document.getElementById('main-title');
         const mainSubtitle = document.getElementById('main-subtitle');
         const rankingList = document.getElementById('ranking-list');
@@ -456,12 +397,17 @@
         const cancelDirectScore = document.getElementById('cancel-direct-score');
         const saveDirectScore = document.getElementById('save-direct-score');
 
-        // 소수점 둘째 자리 정밀 보정
         function fixScore(score) {
             return Math.round((parseFloat(score) || 0) * 100) / 100;
         }
 
-        // 헤더 UI 렌더링
+        function saveStorage() {
+            localStorage.setItem('slp_local_title', state.title);
+            localStorage.setItem('slp_local_subtitle', state.subtitle);
+            localStorage.setItem('slp_local_players', JSON.stringify(state.players));
+            localStorage.setItem('slp_local_logs', JSON.stringify(state.logs));
+        }
+
         function renderHeader() {
             mainTitle.textContent = state.title;
             document.title = state.title;
@@ -477,10 +423,8 @@
             }
         }
 
-        // 랭킹 카드 렌더링
         function renderRanking() {
             rankingList.innerHTML = '';
-            
             const sortedPlayers = [...state.players].sort((a, b) => b.score - a.score);
             playerCountBadge.textContent = `참여 ${sortedPlayers.length}명`;
 
@@ -541,7 +485,6 @@
                 rankingList.appendChild(card);
             });
 
-            // 증감 버튼 이벤트 재연결
             document.querySelectorAll('.btn-adjust').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = e.currentTarget.getAttribute('data-id');
@@ -558,7 +501,6 @@
             });
         }
 
-        // 현황판 내역 렌더링
         function renderLogs() {
             logsContainer.innerHTML = '';
             if (state.logs.length === 0) {
@@ -593,7 +535,6 @@
             });
         }
 
-        // 관리자 탭 플레이어 리스트 렌더링
         function renderAdminPlayerList() {
             adminPlayerList.innerHTML = '';
             logTargetSelect.innerHTML = '<option value="">선택하세요</option>';
@@ -618,98 +559,36 @@
 
             document.querySelectorAll('.btn-reset-player').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    resetPlayerScore(e.currentTarget.getAttribute('data-id'));
+                    const id = e.currentTarget.getAttribute('data-id');
+                    const p = state.players.find(x => x.id === id);
+                    if (p) {
+                        p.score = 0;
+                        saveStorage();
+                        renderRanking();
+                        renderAdminPlayerList();
+                    }
                 });
             });
 
             document.querySelectorAll('.btn-delete-player').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    deletePlayer(e.currentTarget.getAttribute('data-id'));
+                    const id = e.currentTarget.getAttribute('data-id');
+                    state.players = state.players.filter(x => x.id !== id);
+                    saveStorage();
+                    renderRanking();
+                    renderAdminPlayerList();
                 });
             });
         }
 
-        // Firestore 실시간 데이터베이스 연동 및 데이터 동기화
-        async function initFirebase() {
-            try {
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-
-                // 익명 인증 실행
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                currentUser = auth.currentUser;
-
-                if (!currentUser) return;
-
-                // 1. 공용 설정 구독 (제목, 부제목)
-                const configDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'mainSettings');
-                onSnapshot(configDocRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        state.title = data.title || DEFAULT_TITLE;
-                        state.subtitle = data.subtitle !== undefined ? data.subtitle : DEFAULT_SUBTITLE;
-                    } else {
-                        // 최초 생성
-                        setDoc(configDocRef, { title: DEFAULT_TITLE, subtitle: DEFAULT_SUBTITLE });
-                    }
-                    renderHeader();
-                }, (error) => console.log("Config Sync Error:", error));
-
-                // 2. 공용 플레이어 데이터 구독
-                const playersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'players');
-                onSnapshot(playersColRef, (snapshot) => {
-                    const list = [];
-                    snapshot.forEach(docSnap => {
-                        list.push({ id: docSnap.id, ...docSnap.data() });
-                    });
-                    state.players = list;
-                    renderRanking();
-                    if (state.isAdminAuthenticated) renderAdminPlayerList();
-                }, (error) => console.log("Players Sync Error:", error));
-
-                // 3. 공용 사유 내역 구독
-                const logsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'logs');
-                onSnapshot(logsColRef, (snapshot) => {
-                    const list = [];
-                    snapshot.forEach(docSnap => {
-                        list.push({ id: docSnap.id, ...docSnap.data() });
-                    });
-                    state.logs = list;
-                    renderLogs();
-                }, (error) => console.log("Logs Sync Error:", error));
-
-            } catch (err) {
-                console.error("Firebase Init Error:", err);
-            }
-        }
-
-        // 데이터 조작 (Firestore 업데이트)
-        async function updatePlayerScoreInDB(playerId, newScore) {
-            if (!currentUser) return;
-            const playerDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', playerId);
-            await updateDoc(playerDocRef, { score: fixScore(newScore) });
-        }
-
-        async function adjustScore(id, delta) {
+        function adjustScore(id, delta) {
             const player = state.players.find(p => p.id === id);
             if (player) {
-                await updatePlayerScoreInDB(id, player.score + delta);
+                player.score = fixScore(player.score + delta);
+                saveStorage();
+                renderRanking();
+                if (state.isAdminAuthenticated) renderAdminPlayerList();
             }
-        }
-
-        async function resetPlayerScore(id) {
-            await updatePlayerScoreInDB(id, 0);
-        }
-
-        async function deletePlayer(id) {
-            if (!currentUser) return;
-            const playerDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'players', id);
-            await deleteDoc(playerDocRef);
         }
 
         function openDirectScoreModal(id) {
@@ -731,11 +610,10 @@
             renderRanking();
         }
 
-        // 초기화 및 이벤트 등록
         document.addEventListener('DOMContentLoaded', () => {
-            initFirebase();
+            renderHeader();
+            renderRanking();
 
-            // 현황판 모달
             openLogsBtn.addEventListener('click', () => {
                 renderLogs();
                 logsModal.classList.remove('hidden');
@@ -743,12 +621,10 @@
             closeLogsModal.addEventListener('click', () => logsModal.classList.add('hidden'));
             closeLogsBottom.addEventListener('click', () => logsModal.classList.add('hidden'));
 
-            // 개발자 설정 모달
             openSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
             closeSettingsModal.addEventListener('click', closeSettingsMenu);
             lockAdminBtn.addEventListener('click', closeSettingsMenu);
 
-            // 관리자 인증 폼
             adminAuthForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (adminPassInput.value === state.adminPass) {
@@ -763,7 +639,6 @@
                 }
             });
 
-            // +/- 반전 버튼
             toggleSignBtn.addEventListener('click', () => {
                 let val = logScoreInput.value.trim();
                 if (val.startsWith('-')) {
@@ -775,26 +650,24 @@
                 }
             });
 
-            // 사유 기록 및 포인트 등록 폼 (서버 저장)
-            logPointForm.addEventListener('submit', async (e) => {
+            logPointForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const targetId = logTargetSelect.value;
                 const amount = parseFloat(logScoreInput.value);
                 const sender = logSenderInput.value.trim() || '개발자';
                 const reason = logReasonInput.value.trim();
 
-                if (!targetId || isNaN(amount) || !currentUser) return;
+                if (!targetId || isNaN(amount)) return;
 
                 const player = state.players.find(p => p.id === targetId);
                 if (player) {
-                    const newScore = fixScore(player.score + amount);
-                    await updatePlayerScoreInDB(targetId, newScore);
-
+                    player.score = fixScore(player.score + amount);
+                    
                     const now = new Date();
                     const timeStr = `${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
                     
-                    const logsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'logs');
-                    await addDoc(logsColRef, {
+                    state.logs.push({
+                        id: 'log_' + Date.now(),
                         targetName: player.name,
                         amount: amount,
                         sender: sender,
@@ -803,58 +676,63 @@
                         createdAt: Date.now()
                     });
 
+                    saveStorage();
+                    renderRanking();
+                    renderAdminPlayerList();
+
                     logScoreInput.value = '';
                     logReasonInput.value = '';
-                    alert(`${player.name} 님에게 ${amount > 0 ? '+' : ''}${amount} slp 가 적용되어 공유 서버에 저장되었습니다!`);
+                    alert(`${player.name} 님에게 ${amount > 0 ? '+' : ''}${amount} slp가 적용되었습니다!`);
                 }
             });
 
-            // 사이트 제목 변경 (서버 저장)
-            changeTitleForm.addEventListener('submit', async (e) => {
+            changeTitleForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const newTitle = inputSiteTitle.value.trim() || DEFAULT_TITLE;
-                const newSubtitle = inputSiteSubtitle.value.trim();
-
-                if (currentUser) {
-                    const configDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'mainSettings');
-                    await setDoc(configDocRef, { title: newTitle, subtitle: newSubtitle });
-                    alert('새 사이트 제목이 모든 친구들에게 실시간으로 적용되었습니다!');
-                }
+                state.title = inputSiteTitle.value.trim() || DEFAULT_TITLE;
+                state.subtitle = inputSiteSubtitle.value.trim();
+                saveStorage();
+                renderHeader();
+                alert('제목이 변경되었습니다!');
             });
 
-            // 새 친구 등록 (서버 저장)
-            addPlayerForm.addEventListener('submit', async (e) => {
+            addPlayerForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const name = newPlayerName.value.trim();
-                if (name && currentUser) {
-                    const playersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'players');
-                    await addDoc(playersColRef, {
+                if (name) {
+                    state.players.push({
+                        id: 'player_' + Date.now(),
                         name: name,
-                        score: 0,
-                        createdAt: Date.now()
+                        score: 0
                     });
+                    saveStorage();
+                    renderRanking();
+                    renderAdminPlayerList();
                     newPlayerName.value = '';
                 }
             });
 
-            // 비밀번호 변경
             changePassForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const newPass = newPassInput.value.trim();
                 if (newPass) {
                     state.adminPass = newPass;
-                    localStorage.setItem('slp_pass', newPass);
+                    localStorage.setItem('slp_local_pass', newPass);
                     newPassInput.value = '';
-                    alert('관리자 비밀번호가 성공적으로 변경되었습니다!');
+                    alert('관리자 비밀번호가 새로 변경되었습니다!');
                 }
             });
 
-            // 직접 입력 모달 처리
             cancelDirectScore.addEventListener('click', () => directScoreModal.classList.add('hidden'));
-            saveDirectScore.addEventListener('click', async () => {
+            saveDirectScore.addEventListener('click', () => {
                 const val = parseFloat(directScoreInput.value);
                 if (!isNaN(val) && currentEditingPlayerId) {
-                    await updatePlayerScoreInDB(currentEditingPlayerId, val);
+                    const player = state.players.find(p => p.id === currentEditingPlayerId);
+                    if (player) {
+                        player.score = fixScore(val);
+                        saveStorage();
+                        renderRanking();
+                        if (state.isAdminAuthenticated) renderAdminPlayerList();
+                    }
                 }
                 directScoreModal.classList.add('hidden');
             });
@@ -862,4 +740,3 @@
     </script>
 </body>
 </html>
-```
